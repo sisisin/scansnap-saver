@@ -5,14 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./index.js hoge",
-    "build": "nexe index.js -o  %OneDrive%\\app\\scansnap-saver\\scansnap-saver.exe"
+    "start": "node ./dist/index.js hoge",
+    "build": "tsc",
+    "clean": "rm -rf ./dist",
+    "prebuild-mac": "npm run clean && npm run build",
+    "build-mac": "nexe ./dist/index.js -o \"$SCANSNAP_SAVER_PATH/scansnap-saver.exe\" -t win32-x86-10.13.0",
+    "build-win": "nexe ./dist/index.js -o  %SCANSNAP_SAVER_PATH%\\scansnap-saver.exe"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "nexe": "^2.0.0-rc.34",
     "typescript": "^3.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^11.12.2"
   }
 }
