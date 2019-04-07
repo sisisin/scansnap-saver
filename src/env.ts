@@ -8,3 +8,11 @@ function getEnv(key: string): string {
 }
 
 export const getAppPath = () => getEnv('SCANSNAP_SAVER_PATH');
+export const getNodeEnv = () => {
+  const e = process.env.NODE_ENV;
+  if (e === 'development' || e === 'test') {
+    return e;
+  } else {
+    return 'production';
+  }
+};

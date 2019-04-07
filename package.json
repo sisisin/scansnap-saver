@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/index.js hoge",
+    "test": "NODE_ENV=development node ./dist/index.js /Users/hoge/foo.jpg",
+    "start": "echo 'do nothing'",
     "build": "tsc",
     "clean": "rm -rf ./dist",
     "prebuild-mac": "npm run clean && npm run build",

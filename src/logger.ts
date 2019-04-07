@@ -1,12 +1,9 @@
-import fs from 'fs';
 import path from 'path';
-import { promisify } from 'util';
-import { getAppPath } from './env';
-
-const appendFileAsync = promisify(fs.appendFile);
+import { getAppPath, getNodeEnv } from './env';
+import { appendFileAsync } from './fs';
 
 export class Logger {
-  logFilePath: string;
+  private logFilePath: string;
   static create(): Logger {
     return new Logger(getAppPath());
   }
@@ -15,6 +12,12 @@ export class Logger {
   }
 
   async log(text: string | string[]) {
-    await appendFileAsync(this.logFilePath, text + '\n');
+    const nodeEnv = getNodeEnv();
+    if (nodeEnv === 'development') {
+      console.log(text);
+    } else if (nodeEnv === 'test') {
+    } else {
+      await appendFileAsync(this.logFilePath, text + '\n');
+    }
   }
 }
