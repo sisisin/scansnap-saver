@@ -1,28 +1,19 @@
-import fs from 'fs';
-import { copyFileAsync } from './fs';
+import bestzip from 'bestzip';
 import { Logger } from './logger';
 import { PathCreator } from './path-creator';
-const { COPYFILE_EXCL } = fs.constants;
 
 export class FileManipulator {
   constructor(private pathCreator: PathCreator, private logger: Logger) {}
 
-  private async moveToBookDir(from: string) {
-    const to = this.pathCreator.getDestPath(from);
-
-    await this.logger.log(`from path: ${from}, to path: ${to}`);
-    // todo: handling if file exists
-    await copyFileAsync(from, to, COPYFILE_EXCL);
-  }
-
-  private async prepareForMove() {
-    await this.pathCreator.mkDestDir();
-  }
-
   async moveToBookDirAll(fromPaths: string[]) {
-    await this.prepareForMove();
-    for (const from of fromPaths) {
-      await this.moveToBookDir(from);
+    if (fromPaths.length === 0) {
+      this.logger.log('got 0 command line args. do nothing.');
+      return;
     }
+
+    const destination = this.pathCreator.getDestZipPath();
+    const source = this.pathCreator.getRelativeSrcPaths(fromPaths);
+    await this.logger.log(`from: ${source}, to path: ${this.pathCreator.getDestZipPath()}`);
+    await bestzip({ source, destination, cwd: this.pathCreator.getSourceDirPath(fromPaths[0]) });
   }
 }

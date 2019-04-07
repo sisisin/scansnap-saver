@@ -4,18 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=development node ./dist/index.js /Users/hoge/foo.jpg",
+    "test": "NODE_ENV=development node ./dist/index.js ./test/fixtures/white.png ./test/fixtures/black.png",
     "start": "echo 'do nothing'",
     "build": "tsc",
+    "watch": "tsc -w",
     "clean": "rm -rf ./dist",
     "prebuild-mac": "npm run clean && npm run build",
-    "build-mac": "nexe ./dist/index.js -o \"$SCANSNAP_SAVER_PATH/scansnap-saver.exe\" -t win32-x86-10.13.0",
-    "build-win": "nexe ./dist/index.js -o  %SCANSNAP_SAVER_PATH%\\scansnap-saver.exe"
+    "build-mac": "nexe ./dist/index.js -o \"$SCANSNAP_DEPLOY_PATH/scansnap-saver.exe\" -t win32-x86-10.13.0",
+    "build-win": "nexe ./dist/index.js -o  %SCANSNAP_DEPLOY_PATH%\\scansnap-saver.exe"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "bestzip": "^2.1.2",
     "nexe": "^2.0.0-rc.34",
     "typescript": "^3.4.1"
   },
