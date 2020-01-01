@@ -4,9 +4,10 @@ import { getConfig } from './config';
 import { FileManipulator } from './file-manipulator';
 import { PathCreator } from './path-creator';
 
+const logger = Logger.create();
+
 async function main() {
   const config = await getConfig();
-  const logger = Logger.create();
   const args = process.argv.slice(2);
   await logger.log(args);
 
@@ -16,6 +17,7 @@ async function main() {
   await fm.moveToBookDirAll(args);
 }
 
-main()
-  .catch(err => console.log(err))
-  .finally(() => Finalize.create().run());
+main().catch(async err => {
+  await logger.log(err);
+  await Finalize.create().run();
+});
